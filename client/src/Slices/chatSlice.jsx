@@ -22,13 +22,13 @@ const chatSlice = createSlice({
         state.loading = false;
         state.error = false;
         state.chat = payload?.data?.data
-        console.log(payload);
+        // console.log(payload);
     },
     updateChatDetail: (state, { payload }) => {
         state.loading = false;
         state.error = false;
         state.chatDetail = payload?.data?.data
-        console.log(payload);
+        // console.log(payload);
     },
   
     fetchFail: (state, { payload }) => {

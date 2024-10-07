@@ -8,9 +8,9 @@ import logo from "../assets/chat.png";
 const Chat = () => {
   const { user } = useSelector((state) => state.auth);
   const { chat, chatDetail } = useSelector((state) => state.chat);
-  console.log(user);
-  console.log(chat);
-  console.log(chatDetail);
+  // console.log(user);
+  // console.log(chat);
+  // console.log(chatDetail);
   // console.log(chat[0]?._id);
 
   const { axiosWithToken } = useAxios();
@@ -26,17 +26,16 @@ const Chat = () => {
     nextQuestion: 2,
   });
 
-  console.log(questionAnswer.question);
-  console.log(questionAnswer.nextQuestion);
-  console.log(currentQuestion);
+  // console.log(questionAnswer.question);
+  // console.log(questionAnswer.nextQuestion);
+  // console.log(currentQuestion);
 
   const getCurrentQuestionNumber = async () => {
     try {
       const { data } = await axiosWithToken(
         `questions?filter[currentQuestion]=${currentQuestion}`
       );
-      console.log(data);
-      // setChatHistory(data?.data);
+      // console.log(data);
       setQuestionAnswer((prev) => ({
         ...prev,
         question: data?.data[0]?.question,
@@ -62,7 +61,7 @@ const Chat = () => {
         const chatHistoryData = await getChatHistory();
         await getCurrentQuestionNumber();
         await userChat();
-        console.log(chatHistoryData);
+        // console.log(chatHistoryData);
       } catch (error) {
         console.log(error);
       }
@@ -71,13 +70,9 @@ const Chat = () => {
     fetchChatData();
   }, [currentQuestion]);
 
-  const handleChoice = (e) => {
-    const { textContent } = e.target;
-    console.log(textContent);
-  };
 
   const handleChange = (e) => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     setQuestionAnswer((prev) => ({ ...prev, answer: e.target.value }));
   };
 
@@ -94,7 +89,7 @@ const Chat = () => {
           },
         ],
       };
-      console.log(postData);
+      // console.log(postData);
       await postChat(postData);
     } 
     else {
@@ -107,7 +102,7 @@ const Chat = () => {
           },
         ],
       };
-      console.log("update post: ", postData);
+      // console.log("update post: ", postData);
       await updateChat(chat[0]?._id, postData);
       await getChatHistory();
     }
@@ -119,15 +114,11 @@ const Chat = () => {
       answer: "",
     }));
   };
-  // console.log(questionAnswer.questions?.data[0].question);
 
   return (
 <section className="flex flex-col text-center w-full px-4 sm:px-6 lg:px-8">
   <h3 className="text-lg md:text-xl">Welcome {user?.username}</h3>
-  <h4 className="text-sm md:text-base mb-4">If you are ready, I want to ask you some questions about animals?</h4>
-  <button className="mb-2 px-4 py-2 bg-blue-500 text-white rounded" onClick={handleChoice}>Yes</button>
-  <button className="mb-4 px-4 py-2 bg-gray-400 text-white rounded" onClick={handleChoice}>No, later</button>
-
+  
   <article>
     {!chat ? (
       <section className="relative mb-5 flex flex-col">
