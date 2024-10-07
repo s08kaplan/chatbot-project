@@ -36,7 +36,8 @@ module.exports = {
 
   read: async (req, res) => {
     // const data = await Chat.findOne({ _id: req.params.chatId });
-    const data = await res.getModelList(Chat, { _id: req.params.chatId });
+   const customFilter = req.query
+    const data = await res.getModelList(Chat, customFilter);
 
     res.status(202).send({
       error: false,
