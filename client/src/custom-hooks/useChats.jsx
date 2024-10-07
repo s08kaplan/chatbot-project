@@ -1,7 +1,7 @@
 import React from 'react'
 import useAxios from './useAxios'
 import { useDispatch } from 'react-redux'
-import { fetchFail, fetchStart, getChats } from '../Slices/chatSlice'
+import { fetchFail, fetchStart, getChats, updateChatDetail } from '../Slices/chatSlice'
 
 const useChats = () => {
     const { axiosWithToken } = useAxios()
@@ -21,12 +21,13 @@ const useChats = () => {
     }
 
     const postChat = async (postData) => {
+        console.log(postData);
         dispatch(fetchStart())
         try {
             const { data } = await axiosWithToken.post("chats",postData)
             console.log(data);
             dispatch(getChats(data))
-            await getChatHistory()
+            // await getChatHistory()
         } catch (error) {
           console.log(error);
           dispatch(fetchFail(error))  
@@ -34,11 +35,12 @@ const useChats = () => {
     }
 
     const updateChat = async (id,postData) => {
+        console.log(postData);
         dispatch(fetchStart())
         try {
             const { data } = await axiosWithToken.put(`chats/${id}`,postData)
             console.log(data);
-            dispatch(getChats(data))
+            dispatch(updateChatDetail(data))
         } catch (error) {
           console.log(error);
           dispatch(fetchFail(error))  

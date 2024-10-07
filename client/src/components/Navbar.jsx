@@ -34,7 +34,10 @@ export default function Navbar() {
   const handleLogout = () => {
     logout();
     sessionStorage.clear()
-    persistor.purge();
+    persistor.purge()
+    // .then(() => {
+    //   console.log('Persisted state purged');
+    // });
   };
   return (
     <Disclosure as="nav" className="bg-gray-800">

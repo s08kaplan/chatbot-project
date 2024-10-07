@@ -1,6 +1,7 @@
 "use strict";
 
 const Chat = require("../models/chat");
+const Question = require("../models/question");
 // const axios = require("axios")
 // const openAiApiKey = process.env.CHAT_API_KEY
 
@@ -12,11 +13,9 @@ const Chat = require("../models/chat");
 //     }
 // })
 
-
-
 module.exports = {
   list: async (req, res) => {
-    const data = await res.getModelList(Chat);
+    const data = await res.getModelList(Chat, { userId: req.user?._id });
 
     res.status(200).send({
       error: false,
@@ -25,7 +24,8 @@ module.exports = {
   },
 
   create: async (req, res) => {
-  
+    // console.log(req.body);
+
     const data = await Chat.create(req.body);
 
     res.status(201).send({
@@ -35,8 +35,8 @@ module.exports = {
   },
 
   read: async (req, res) => {
-
-    const data = await Chat.findOne({ _id: req.params.chatId });
+    // const data = await Chat.findOne({ _id: req.params.chatId });
+    const data = await res.getModelList(Chat, { _id: req.params.chatId });
 
     res.status(202).send({
       error: false,
@@ -83,13 +83,13 @@ module.exports = {
     // Find the existing chat session
     const chatSession = await Chat.findOne({ _id: req.params.chatId });
     if (!chatSession) {
-        return res.status(404).send({
-            error: true,
-            message: "Chat session not found.",
-        });
+      return res.status(404).send({
+        error: true,
+        message: "Chat session not found.",
+      });
     }
 
-    console.log(chatSession);
+    // console.log(chatSession);
 
     // Check if the question already exists
     const existingQuestion = chatSession.chat.find(
@@ -98,18 +98,20 @@ module.exports = {
 
     // If the question already exists, send a warning response
     if (existingQuestion) {
-        return res.status(200).send({
-            error: false,
-            message: "Question already exists.",
-            data: chatSession,
-        });
-    } 
-
+      return res.status(200).send({
+        error: false,
+        message: "Question already exists.",
+        data: chatSession,
+      });
+    }else {
+      
     // If the question does not exist, add the new chat to the array
     chatSession.chat.push({
-        question: chat[0].question,
-        answer: chat[0].answer,
+      question: chat[0].question,
+      answer: chat[0].answer,
     });
+    }
+
 
     // Save the updated Chat document
     await chatSession.save();
@@ -117,10 +119,10 @@ module.exports = {
     // Fetch the updated chat session and send the response
     const data = await Chat.findOne({ _id: req.params.chatId });
     return res.status(202).send({
-        error: false,
-        data,
+      error: false,
+      data,
     });
-},
+  },
 
   delete: async (req, res) => {
     const data = await Chat.deleteOne({ _id: req.body.chatId });

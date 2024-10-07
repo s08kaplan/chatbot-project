@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   chat: [],
+  chatDetail: [],
   loading: false,
   error: false,
   errorMessage: "",
@@ -23,7 +24,13 @@ const chatSlice = createSlice({
         state.chat = payload?.data?.data
         console.log(payload);
     },
-
+    updateChatDetail: (state, { payload }) => {
+        state.loading = false;
+        state.error = false;
+        state.chatDetail = payload?.data?.data
+        console.log(payload);
+    },
+  
     fetchFail: (state, { payload }) => {
       state.loading = false;
       state.error = true;
@@ -35,6 +42,6 @@ const chatSlice = createSlice({
   },
 });
 
-export const { fetchStart, getChats, fetchFail, clearError } = chatSlice.actions;
+export const { fetchStart, getChats, updateChatDetail,  fetchFail, clearError } = chatSlice.actions;
 
 export default chatSlice.reducer;
