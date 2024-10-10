@@ -5,6 +5,7 @@ import SendButton from "../components/SendButton";
 import useChats from "../custom-hooks/useChats";
 import logo from "../assets/chat.png";
 import ChatCard from "../components/ChatCard";
+import Sidebar from "../components/Sidebar";
 
 const Chat = () => {
   const { user } = useSelector((state) => state.auth);
@@ -53,7 +54,6 @@ const Chat = () => {
       try {
         const chatHistoryData = await getChatHistory();
         await getCurrentQuestionNumber();
-        // await userChat();
         // console.log(chatHistoryData);
       } catch (error) {
         console.log(error);
@@ -111,6 +111,7 @@ const Chat = () => {
   return (
 <section className="flex flex-col text-center w-full px-4 sm:px-6 lg:px-8">
   <h3 className="text-lg md:text-xl">Welcome {user?.username}</h3>
+  <Sidebar/>
 {/*   
   <article>
     {!chat ? (
