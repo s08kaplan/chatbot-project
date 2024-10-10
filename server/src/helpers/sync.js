@@ -123,7 +123,7 @@ module.exports = async function () {
       "_id": "64f2b947cfe5fa36a59871bc",
       "question": "How would you describe the relationship between humans and cats in three words?",
       "currentQuestion": 11,
-      "nextQuestion": 12
+      "nextQuestion": null
     },
    
   ]

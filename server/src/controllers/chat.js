@@ -35,49 +35,17 @@ module.exports = {
   },
 
   read: async (req, res) => {
+    console.log(req.query);
     // const data = await Chat.findOne({ _id: req.params.chatId });
-   const customFilter = req.query
-    const data = await res.getModelList(Chat, customFilter);
-
+    const data = await res.getModelList(Chat, req.query);
+console.log(data);
     res.status(202).send({
       error: false,
       data,
     });
   },
 
-  // update: async (req, res) => {
-  //   const { chat } = req.body;
-
-  //   const chatSession = await Chat.findOne({ _id: req.params.chatId });
-  //   console.log(chatSession);
-  //   const existingQuestion = chatSession.chat.find(
-  //     (item) => item.question.toString() === chat[0].question.toString()
-  //   );
-
-  //   // If the question is already asked send  warning
-  //   if (existingQuestion) {
-  //      res.status(200).send({
-  //       error: false,
-  //       message: "Question already exists.",
-  //       data: chatSession,
-  //     });
-  //   } else {
-  //     // If the question does not exist, push the new chat to the array
-  //     chatSession.chat.push({
-  //       question: chat[0].question,
-  //       answer: chat[0].answer,
-  //     })
-  //   }
-
-  //   // Save the updated Chat document
-  //   await chatSession.save();
-  //   const data = await Chat.findOne({ _id: req.params.chatId });
-  //   res.status(202).send({
-  //     error: false,
-  //     data,
-  //   });
-  // },
-
+ 
   update: async (req, res) => {
     const { chat } = req.body;
 

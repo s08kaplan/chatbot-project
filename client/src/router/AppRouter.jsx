@@ -7,6 +7,7 @@ import PrivateRouter from "./PrivateRouter";
 
 const Profile = lazy(() => import("../pages/Profile"));
 const Chat = lazy(() => import("../pages/Chat"));
+const UserChatDetail = lazy(() => import("../pages/UserChatDetail"));
 const NotFound = lazy(() => import("../pages/NotFound"));
 
 const AppRouter = () => {
@@ -17,10 +18,11 @@ const AppRouter = () => {
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
         <Route path="chat" element={<PrivateRouter />}>
-          <Route path="" element={<Chat />} />
+          <Route index element={<Chat />} />
         </Route>
         <Route path="profile" element={<PrivateRouter />}>
-          <Route path="" element={<Profile />} />
+          <Route index element={<Profile />} />
+          <Route path=":chatDetailId" element={<UserChatDetail />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>

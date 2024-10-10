@@ -4,6 +4,7 @@ import useAxios from "../custom-hooks/useAxios";
 import SendButton from "../components/SendButton";
 import useChats from "../custom-hooks/useChats";
 import logo from "../assets/chat.png";
+import ChatCard from "../components/ChatCard";
 
 const Chat = () => {
   const { user } = useSelector((state) => state.auth);
@@ -27,7 +28,7 @@ const Chat = () => {
   });
 
   // console.log(questionAnswer.question);
-  // console.log(questionAnswer.nextQuestion);
+  console.log(questionAnswer.nextQuestion);
   // console.log(currentQuestion);
 
   const getCurrentQuestionNumber = async () => {
@@ -46,21 +47,13 @@ const Chat = () => {
     }
   };
 
-  const userChat = async () => {
-    try {
-      const { data } = await axiosWithToken(`chats?filter[userId]=${user?.id}`)
-      // const { data } = await axiosWithToken(`chats`);
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+
   useEffect(() => {
     const fetchChatData = async () => {
       try {
         const chatHistoryData = await getChatHistory();
         await getCurrentQuestionNumber();
-        await userChat();
+        // await userChat();
         // console.log(chatHistoryData);
       } catch (error) {
         console.log(error);
@@ -118,7 +111,7 @@ const Chat = () => {
   return (
 <section className="flex flex-col text-center w-full px-4 sm:px-6 lg:px-8">
   <h3 className="text-lg md:text-xl">Welcome {user?.username}</h3>
-  
+{/*   
   <article>
     {!chat ? (
       <section className="relative mb-5 flex flex-col">
@@ -139,7 +132,6 @@ const Chat = () => {
             key={item.question}
             className="relative p-5 flex flex-col justify-between"
           >
-            {/* Chatbot Message */}
             <div className="flex flex-col sm:flex-row gap-3 h-full bg-gray-500 p-4 rounded-lg shadow-md sm:w-full md:w-[75%] lg:w-[50%] mt-1">
               <img src={logo} alt="logo" width={30} height={30} className="rounded-full" />
               <div className="flex flex-col items-start">
@@ -148,11 +140,11 @@ const Chat = () => {
               </div>
             </div>
 
-            {/* User Response */}
-            <div className="flex flex-col sm:flex-row items-end sm:items-start justify-end mt-3 sm:mt-0">
+            <div className="flex flex-col sm:flex-row items-end sm:items-start justify-end mt-3 sm:mt-2">
               <div className="flex gap-3 p-4 bg-gray-500 rounded-lg shadow-md w-full sm:w-auto sm:ml-3">
                 <span className="text-sm sm:text-base">{item.answer}</span>
-                <span className="font-semibold">{user?.username}</span>
+                <div className="flex gap-2 items-center mx-5">
+                  <span className="font-semibold">{user?.username}</span>
                 <img
                   src={
                     user?.image
@@ -160,9 +152,12 @@ const Chat = () => {
                       : "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_640.png"
                   }
                   alt="user image"
-                  width={30}
-                  className="rounded-full"
+                  width="30px"
+                  height="20px"
+                  className="rounded-full object-contain"
                 />
+                </div>
+                
               </div>
             </div>
           </section>
@@ -170,8 +165,8 @@ const Chat = () => {
         </>
       ))
     )}
-  </article>
-
+  </article> */}
+     <ChatCard/>
   <article>
     {questionAnswer.nextQuestion ? (
       <>
