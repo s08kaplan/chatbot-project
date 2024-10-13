@@ -3,13 +3,16 @@ import { useSelector } from 'react-redux'
 import useAxios from '../custom-hooks/useAxios'
 import { useParams } from 'react-router-dom'
 import logo from "../assets/chat.png";
+import useChats from '../custom-hooks/useChats';
 
 
 const ChatCard = () => {
     const { user } = useSelector(state => state.auth)
+    const { chat } = useSelector(state => state.chat)
     const { axiosWithToken } = useAxios()
     const { chatDetailId } = useParams()
     const [chats, setChats] = useState([])
+    const { getChatHistory } = useChats()
     const getDetail = async () => {
         try {
          const { data } = await axiosWithToken(`chats?filter[_id]=${chatDetailId}`)  
@@ -20,12 +23,15 @@ const ChatCard = () => {
         }   
     }
     useEffect(() => {
-     getDetail()
-    }, [])
+      chatDetailId ?  getDetail() : getChatHistory()
+    chat && setChats(chat) 
+    }, [chatDetailId])
     console.log(user);
+    console.log(chats);
+    console.log("use selector chat :", chat);
   return (
     <article>
-    {!chatDetailId ? (
+    {(!chatDetailId && !chats) ? (
       <section className="relative mb-5 flex flex-col">
         {/* <div className="flex flex-col sm:flex-row gap-2 w-full max-w-[90%] sm:max-w-[70%] lg:max-w-[50%] bg-gray-200 rounded-lg shadow-md p-3">
           <span className="font-semibold">Chatbot</span>
@@ -56,9 +62,9 @@ const ChatCard = () => {
 
             {/* User Response */}
             <div className="flex flex-col sm:flex-row items-end sm:items-start justify-end mt-3 sm:mt-2">
-              <div className="flex gap-3 p-4 bg-gray-500 rounded-lg shadow-md w-full sm:w-auto sm:ml-3">
+              <div className="flex items-center gap-3 p-4 bg-gray-500 rounded-lg shadow-md w-full sm:w-auto sm:ml-3">
                 <span className="text-sm sm:text-base">{item.answer}</span>
-                <div className="flex gap-2 items-center mx-5">
+                <div className="flex flex-col-reverse gap-2 items-center mx-5">
                   <span className="font-semibold">{user?.username}</span>
                 <img
                   src={
