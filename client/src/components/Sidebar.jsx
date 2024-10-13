@@ -9,7 +9,7 @@ import useAxios from '../custom-hooks/useAxios';
 
 export default function Sidebar() {
   const { user } = useSelector(state => state.auth)  
-  const [open, setOpen] = useState(true)
+  const [open, setOpen] = useState(false)
   const { axiosWithToken } = useAxios()
 
   const getUserChats = async () => {
